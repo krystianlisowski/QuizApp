@@ -10,7 +10,7 @@ export default class Drawer extends Component{
 }
 
 const AppDrawerNavigator = createDrawerNavigator({
-  Home: Home,
+  Home: Home
 })
 
 

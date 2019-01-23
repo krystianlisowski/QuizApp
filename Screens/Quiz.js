@@ -1,13 +1,16 @@
 import React, {Component} from 'react';
 import {
+  Alert,
   StyleSheet,
   StatusBar,
-  TouchableOpacity,
   View,
-  Text
+  Text,
+  TouchableOpacity,
+  TextInput
 } from 'react-native';
 
 import Test from '../Components/Test';
+
 
 export default class Quiz extends Component{
 
@@ -23,7 +26,11 @@ constructor(props){
   super(props)
   this.state = {
     quizFinish : false,
-    score: 0
+    score: 0,
+    nick: '',
+    total: 100,
+    type: 'HP',
+    date: '12-13-2018'
   }
 }
 _onPressBack(){
@@ -50,6 +57,33 @@ _scoreMessage(score){
               </View>)
   }
 }
+
+_sendResult() {
+  Alert.alert("Wynik został zapisany")
+  fetch('https://pwsz-quiz-api.herokuapp.com/api/result', {
+    method: 'POST',
+    headers: {
+      //Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      nick: this.state.nick,
+      score: this.state.score,
+      total: this.state.total,
+      type: this.state.type,
+      date: this.state.date
+    })
+
+  }).then(res => res.json())
+    .then(response => console.log('Success:', JSON.stringify(response)))
+    .catch((error) => {
+      console.error(error);
+    });
+}
+handleNick = (text) => {
+  this.setState({ nick: text })
+}
+
 render() {
   return (
     <View style={{flex:1}}>
@@ -60,6 +94,15 @@ render() {
 
            { this._scoreMessage(this.state.score) }
          </View>
+
+<TextInput style={styles.input}
+                underlineColorAndroid="transparent"
+                placeholder="nick"
+                onChangeText={this.handleNick}
+              />
+              <TouchableOpacity style={styles.button} onPress={() => this._sendResult()}>
+                <Text style={styles.text}>SendResult</Text>
+              </TouchableOpacity>
 
      </View> :  <Test quizFinish={(score) => this._quizFinish(score)} /> 
      
@@ -115,5 +158,20 @@ toolbar:{
       flex:1,
       fontFamily: 'Oswald-Regular'
 
-  }
+  },
+  input: {
+    margin: 15,
+    height: 40,
+    borderColor: '#7a42f4',
+    borderWidth: 1
+  },
+  button: {
+    margin: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingRight: 20,
+    paddingLeft: 20,
+    backgroundColor: "#bdbdbd",
+    borderRadius: 20
+  },
 });

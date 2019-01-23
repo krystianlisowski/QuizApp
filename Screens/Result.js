@@ -72,10 +72,9 @@ export default class ResultScreen extends Component {
     render() {
         return (
             <ListView
-                style={styles.container}
                 dataSource={this.state.dataSource}
                 renderRow={(rowData) =>
-                    <View>
+                    <View  style={{backgroundColor: "#FFBF00"}}>
                         <Text style={{fontWeight:'bold', fontSize: 20}}>{rowData.nick}</Text>
                         <Text>Wynik: {rowData.score}/{rowData.total}</Text>
                         <Text>typ: {rowData.type}</Text>

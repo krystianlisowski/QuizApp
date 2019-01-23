@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import Animbutton from "./Animbutton";
+import {insertTest} from '../Screens/Quiz';
 
 const { width, height } = Dimensions.get('window')
 let arrnew = []
@@ -130,7 +131,7 @@ export default class Test extends Component {
     const options = Object.keys(currentOptions).map( function(k) {
       return (  <View key={k} style={{margin:10}}>
 
-        <Animbutton countCheck={_this.state.countCheck} onColor={"#3366ff"} effect={"tada"} _onPress={(status) => _this._answer(status,k)} text={currentOptions[k]} />
+        <Animbutton countCheck={_this.state.countCheck} onColor={"#3366ff"} effect={"tada"} _onPress={(status) => _this._answer(status,k)} text={currentOptions[k]}/>
 
       </View>)
     });
